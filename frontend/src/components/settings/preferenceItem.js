@@ -9,7 +9,6 @@ function PreferenceItem(props) {
   const [checkboxState, setCheckboxState] = useState(false);
 
   function toggleCheckboxHandler(id) {
-    console.log("Pressed!");
     if (checkboxState) {
       _uncheckCheckBox(id);
     } else {
@@ -24,6 +23,7 @@ function PreferenceItem(props) {
   function _uncheckCheckBox(id) {
     setCheckboxState(false);
   }
+
   return (
     <Pressable onPress={toggleCheckboxHandler}>
       <View style={styles.preferenceContainer}>

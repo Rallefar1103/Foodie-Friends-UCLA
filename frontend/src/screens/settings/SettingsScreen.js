@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -119,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   preferencesContainer: {
-    height: "25%",
+    height: "35%",
     width: 200,
     alignItems: "center",
   },
