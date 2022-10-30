@@ -1,8 +1,8 @@
-class Preference {
-  _preferenceType;
+export default class Preference {
+  _preferenceType = "";
   _preferenceSelected = false;
 
-  Preference(newPreferenceType) {
+  constructor(newPreferenceType) {
     this._preferenceType = newPreferenceType;
   }
 
