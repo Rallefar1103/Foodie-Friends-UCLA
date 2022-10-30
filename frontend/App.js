@@ -1,43 +1,38 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "react-native-vector-icons/Ionicons";
-
-// Screens
-import SettingsScreen from "./src/screens/settings/SettingsScreen";
+import { createStackNavigator, StackView } from "@react-navigation/stack";
+import LoginScreen from "./src/screens/login/LoginScreen";
+import { useState } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
 
-// Screen Names
-const home = "Home";
-const settings = "Settings";
-const swipe = "Swipe";
-
-const Tab = createBottomTabNavigator();
-
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={home}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let routeName = route.name;
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-            if (routeName === home) {
-              iconName = focused ? "home" : "home-outline";
-            } else if (routeName === settings) {
-              iconName = focused ? "settings" : "settings-outline";
-            }
+  const Stack = createStackNavigator();
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tab.Screen name={home} component={HomeScreen} />
-        <Tab.Screen name={settings} component={SettingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+  const signIn = (status) => {
+    setIsSignedIn(status);
+  };
+
+  if (!isSignedIn) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="LogIn"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  } else {
+    return <HomeScreen></HomeScreen>;
+  }
 }

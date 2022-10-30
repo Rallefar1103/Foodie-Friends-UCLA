@@ -1,66 +1,41 @@
-import * as React from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+// Screens
+import SettingsScreen from "../settings/SettingsScreen";
+import MatchesScreen from "../matches/MatchesScreen";
+
+// Screen Names
+const matches = "Matches";
+const settings = "Settings";
+const swipe = "Swipe";
+
+const Tab = createBottomTabNavigator();
 
 export default function HomeScreen({ navigation }) {
-  function SignInHandler() {
-    console.log("sign in");
-  }
-
   return (
-    <View style={styles.screenContainer}>
-      <View style={styles.iconsContainer}>
-        <Ionicons name="ios-person-sharp" size={34} color="#ff7900" />
-        <FontAwesome name="spoon" size={34} color="#ff7900" />
-        <Ionicons name="ios-person-sharp" size={34} color="#ff7900" />
-      </View>
+    <Tab.Navigator
+      initialRouteName={matches}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let routeName = route.name;
 
-      <Text style={styles.logoText}> Foodie Friends</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={SignInHandler} style={styles.signInButton}>
-          <Text style={styles.signInText}> Sign in with Google</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          if (routeName === matches) {
+            iconName = focused ? "home" : "home-outline";
+          } else if (routeName === settings) {
+            iconName = focused ? "settings" : "settings-outline";
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name={matches} component={MatchesScreen} />
+      <Tab.Screen name={settings} component={SettingsScreen} />
+    </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#ffb980",
-    justifyContent: "center",
-  },
-
-  logoText: {
-    fontSize: 40,
-    fontWeight: "500",
-    color: "#ff7900",
-  },
-
-  iconsContainer: {
-    flexDirection: "row",
-  },
-
-  buttonContainer: {
-    paddingTop: 10,
-  },
-
-  signInButton: {
-    width: "60%",
-    elevation: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-  },
-
-  signInText: {
-    fontSize: 13,
-    color: "black",
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-});
