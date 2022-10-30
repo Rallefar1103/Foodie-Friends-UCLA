@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import Preference from "./preference";
 
 const SettingsScreen = () => {
   return (
@@ -12,6 +13,10 @@ const SettingsScreen = () => {
           source={require("../../../assets/images/gene.png")}
         />
       </View>
+      <View>
+        <Text style={styles.nameText}> Gene Block </Text>
+      </View>
+      <FlatList></FlatList>
     </View>
   );
 };
@@ -42,6 +47,14 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "orange",
+  },
+
+  nameText: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 
