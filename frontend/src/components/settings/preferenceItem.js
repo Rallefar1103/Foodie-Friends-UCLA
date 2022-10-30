@@ -1,17 +1,42 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
 
 function PreferenceItem(props) {
+  const [checkboxState, setCheckboxState] = useState(false);
+
+  function toggleCheckboxHandler(id) {
+    console.log("Pressed!");
+    if (checkboxState) {
+      _uncheckCheckBox(id);
+    } else {
+      _checkCheckBox(id);
+    }
+  }
+
+  function _checkCheckBox(id) {
+    setCheckboxState(true);
+  }
+
+  function _uncheckCheckBox(id) {
+    setCheckboxState(false);
+  }
   return (
-    <View style={styles.preferenceContainer}>
-      <View style={styles.checkbox}>
-        <Fontisto name="checkbox-passive" color="orange" size={25} />
+    <Pressable onPress={toggleCheckboxHandler}>
+      <View style={styles.preferenceContainer}>
+        <View style={styles.checkbox}>
+          {checkboxState ? (
+            <Fontisto name="checkbox-active" color="orange" size={25} />
+          ) : (
+            <Fontisto name="checkbox-passive" color="orange" size={25} />
+          )}
+        </View>
+        <Text style={styles.preferenceText}>{props.text}</Text>
       </View>
-      <Text style={styles.preferenceText}>{props.text}</Text>
-    </View>
+    </Pressable>
   );
 }
 

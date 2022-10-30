@@ -1,6 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  Pressable,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
