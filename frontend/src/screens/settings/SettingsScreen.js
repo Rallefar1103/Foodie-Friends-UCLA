@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
-import Preference from "./preference";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Fontisto from "@expo/vector-icons/Fontisto";
 
 const SettingsScreen = () => {
   return (
@@ -13,10 +15,17 @@ const SettingsScreen = () => {
           source={require("../../../assets/images/gene.png")}
         />
       </View>
-      <View>
+      <View style={styles.nameContainer}>
         <Text style={styles.nameText}> Gene Block </Text>
+        <AntDesign name="edit" size={20} />
       </View>
-      <FlatList></FlatList>
+      <View style={styles.locationContainer}>
+        <Ionicons name="md-location-sharp" size={34} color="orange" />
+        <Text style={styles.locationText}> Westwood, LA </Text>
+      </View>
+      <FlatList>
+        <Ionicons name="checkbox" color="red" />
+      </FlatList>
     </View>
   );
 };
@@ -52,9 +61,22 @@ const styles = StyleSheet.create({
     borderColor: "orange",
   },
 
+  nameContainer: {
+    flexDirection: "row",
+  },
+
   nameText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
+  },
+
+  locationContainer: {
+    flexDirection: "row",
+  },
+
+  locationText: {
+    fontSize: 20,
+    fontWeight: "500",
   },
 });
 
