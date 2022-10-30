@@ -32,7 +32,7 @@ const SettingsScreen = () => {
         </View>
       </View>
       <View style={styles.locationContainer}>
-        <Ionicons name="md-location-sharp" size={34} color="orange" />
+        <Ionicons name="md-location-sharp" size={34} color="#ff7900" />
 
         <Text style={styles.locationText}> Westwood, LA </Text>
       </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 40,
     fontWeight: "bold",
-    color: "orange",
+    color: "#ff7900",
     paddingBottom: 10,
   },
 
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     overflow: "hidden",
     borderWidth: 3,
-    borderColor: "orange",
+    borderColor: "#ff7900",
   },
 
   nameContainer: {

@@ -29,9 +29,9 @@ function PreferenceItem(props) {
       <View style={styles.preferenceContainer}>
         <View style={styles.checkbox}>
           {checkboxState ? (
-            <Fontisto name="checkbox-active" color="orange" size={25} />
+            <Fontisto name="checkbox-active" color="#ff7900" size={25} />
           ) : (
-            <Fontisto name="checkbox-passive" color="orange" size={25} />
+            <Fontisto name="checkbox-passive" color="#ff7900" size={25} />
           )}
         </View>
         <Text style={styles.preferenceText}>{props.text}</Text>
