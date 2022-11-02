@@ -5,8 +5,13 @@ import { createStackNavigator, StackView } from "@react-navigation/stack";
 import LoginScreen from "./src/screens/login/LoginScreen";
 import { useState } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
+import { firebaseApp } from "./src/firebase/firebase";
+import { getFirestore } from "firebase/firestore"
 
 export default function App() {
+
+  const db = getFirestore(firebaseApp);
+
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const Stack = createStackNavigator();
