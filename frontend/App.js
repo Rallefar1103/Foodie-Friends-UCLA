@@ -3,14 +3,17 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, StackView } from "@react-navigation/stack";
 import LoginScreen from "./src/screens/login/LoginScreen";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
-import { firebaseApp } from "./src/firebase/firebase";
-import { getFirestore } from "firebase/firestore"
+import { initFirebaseApp } from "./src/firebase/firebase";
+import { authenticate } from "./src/firebase/auth";
+
 
 export default function App() {
-
-  const db = getFirestore(firebaseApp);
+  useEffect(() => {
+    initFirebaseApp();
+    authenticate();
+  });
 
   const [isSignedIn, setIsSignedIn] = useState(false);
 
