@@ -36,3 +36,12 @@ export const signUp = (email, password) => {
       return null;
     });
 };
+
+export const signOut = () => {
+    console.log("signout request");
+    return auth.signOut()
+    .then(() => console.log('User signed out'))
+    .catch((error) => {
+      return null;
+    })
+  }
