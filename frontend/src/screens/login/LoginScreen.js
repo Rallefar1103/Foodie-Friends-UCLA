@@ -62,7 +62,7 @@ export default function LoginScreen({ navigation }) {
               signUp(email, password).then((user) => {
                 if (user) {
                   setLoginError(null);
-                  navigation.navigate("HomeScreen");
+                  navigation.navigate("SignUpScreen", { userId: user.user.uid });
                 } else {
                   setLoginError("Failed to sign up.");
                 }

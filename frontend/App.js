@@ -6,6 +6,7 @@ import LoginScreen from "./src/screens/login/LoginScreen";
 import { useState, useEffect } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
 import provideFirebaseApp  from "./src/firebase/firebase";
+import SignUpScreen from "./src/screens/login/SignUpScreen";
 
 export default function App() {
   useEffect(() => {
@@ -32,6 +33,11 @@ export default function App() {
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
