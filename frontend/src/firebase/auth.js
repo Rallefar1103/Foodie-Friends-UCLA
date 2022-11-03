@@ -1,28 +1,35 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup, getFirestore, signOut} from "firebase/auth";
-import { initFirebaseApp } from "./firebase";
-import { getDocs, getDocs, addDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import provideFirebaseApp from "./firebase";
 
-const app = initFirebaseApp();
-const auth = getAuth(app);
-const database = getFirestore(app);
-const provider = new GoogleAuthProvider();
-//provider.setCustomParameters({'login_hint' : 'user@gmail.com'});
+provideFirebaseApp();
+const auth = getAuth();
 
-export const authenticate = async () => {
-   const result = await signInWithPopup(auth, provider);
-   const user = result.user;
-   const lookupuser = query(collection(database, "users"), where ("uid", "==", user.uid));
-   const documents = await getDocs(lookupuser);
-   if (documents.docs.length === 0){
-    await addDoc(colleciton(database, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: "google",
-        email: user.email });
-   }
-
-}
-
-export const logout = () => {
-    signOut(auth);
+export const authenticate = (email, password) => {
+  console.log("auth request");
+  return signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  )
+    .then((userCredential) => {
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return null;
+    });
+  I;
 };
+
+export const signUp = (email, password) => {
+    console.log("signup request");
+    return createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        return user;
+    })
+    .catch((error) => {
+        return null;
+    })
+}

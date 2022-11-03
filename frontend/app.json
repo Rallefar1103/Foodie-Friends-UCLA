@@ -30,7 +30,14 @@
       "favicon": "./assets/favicon.png"
     },
     "packagerOpts": {
-      "sourceExts": ["cjs"]
+      "sourceExts": [
+        "cjs"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "88706957-8224-4a6e-8c1b-6e12406a5865"
+      }
     }
   }
 }
