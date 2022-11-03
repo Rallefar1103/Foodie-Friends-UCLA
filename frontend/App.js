@@ -5,14 +5,11 @@ import { createStackNavigator, StackView } from "@react-navigation/stack";
 import LoginScreen from "./src/screens/login/LoginScreen";
 import { useState, useEffect } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
-import { initFirebaseApp } from "./src/firebase/firebase";
-import { authenticate } from "./src/firebase/auth";
-
+import provideFirebaseApp  from "./src/firebase/firebase";
 
 export default function App() {
   useEffect(() => {
-    initFirebaseApp();
-    authenticate();
+    provideFirebaseApp();
   });
 
   const [isSignedIn, setIsSignedIn] = useState(false);

@@ -1,11 +1,21 @@
-import * as React from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
-import HomeScreen from "../home/HomeScreen";
+import { authenticate, signUp } from "../../firebase/auth";
 
 export default function LoginScreen({ navigation }) {
+  const [loginError, setLoginError] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.iconsContainer}>
@@ -16,12 +26,59 @@ export default function LoginScreen({ navigation }) {
 
       <Text style={styles.logoText}> Foodie Friends</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("HomeScreen")}
-          style={styles.signInButton}
-        >
-          <Text style={styles.signInText}> Sign in with Google</Text>
-        </TouchableOpacity>
+        <TextInput
+          id="email"
+          style={styles.textInput}
+          placeholder="Enter email..."
+          onChangeText={(email) => setEmail(email)}
+        ></TextInput>
+        <TextInput
+          id="password"
+          secureTextEntry={true}
+          style={styles.textInput}
+          placeholder="Enter password..."
+          onChangeText={(password) => setPassword(password)}
+        ></TextInput>
+
+        <View flexDirection="row">
+          <TouchableOpacity
+            onPress={() => {
+              authenticate(email, password).then((user) => {
+                if (user) {
+                  setLoginError(null);
+                  navigation.navigate("HomeScreen");
+                } else {
+                  setLoginError("Failed to log in.");
+                }
+              });
+            }}
+            style={styles.signInButton}
+          >
+            <Text style={styles.signInText}> Log In!</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              signUp(email, password).then((user) => {
+                if (user) {
+                  setLoginError(null);
+                  navigation.navigate("HomeScreen");
+                } else {
+                  setLoginError("Failed to sign up.");
+                }
+              });
+            }}
+            style={styles.signInButton}
+          >
+            <Text style={styles.signInText}> Sign Up!</Text>
+          </TouchableOpacity>
+        </View>
+        
+        {loginError ? (
+          <Text style={styles.errorText}>{loginError}</Text>
+        ) : (
+          <React.Fragment></React.Fragment>
+        )}
       </View>
     </View>
   );
@@ -50,7 +107,7 @@ const styles = StyleSheet.create({
   },
 
   signInButton: {
-    width: "60%",
+    width: "30%",
     elevation: 10,
     backgroundColor: "white",
     borderRadius: 10,
@@ -62,6 +119,20 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "black",
     fontWeight: "bold",
-    alignSelf: "center",
+  },
+
+  errorText: {
+    fontSize: 13,
+    color: "red",
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 50,
+    height: 50,
+    width: 200,
+    marginBottom: 5
   },
 });
