@@ -33,3 +33,12 @@ export const signUp = (email, password) => {
         return null;
     })
 }
+
+export const signOut = () => {
+  consol.log("singout request");
+  return auth.signOut()
+  .then(() => consol.log('User signed out'))
+  .catch((error) => {
+    return null;
+  })
+}
