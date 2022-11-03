@@ -7,6 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 // Screens
 import SettingsScreen from "../settings/SettingsScreen";
 import MatchesScreen from "../matches/MatchesScreen";
+import SwipingScreen from "../swipe/SwipingScreen";
 
 // Screen Names
 const matches = "Matches";
@@ -29,11 +30,14 @@ export default function HomeScreen({ navigation }) {
           } else if (routeName === settings) {
             iconName = focused ? "settings" : "settings-outline";
           }
-
+          else if (routeName === swipe) {
+            iconName = focused ? "settings" : "settings-outline";
+          }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
+      <Tab.Screen name={swipe} component={SwipingScreen} />
       <Tab.Screen name={matches} component={MatchesScreen} />
       <Tab.Screen name={settings} component={SettingsScreen} />
     </Tab.Navigator>
