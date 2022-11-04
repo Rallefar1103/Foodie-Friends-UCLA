@@ -10,6 +10,7 @@ import SettingsScreen from "../settings/SettingsScreen";
 import MatchesScreen from "../matches/MatchesScreen";
 import LoadingPage from "./LoadingPage";
 import { getRestaurantsByZip } from "../../yelp/yelp";
+import SwipingScreen from "../swipe/SwipingScreen";
 
 // Screen Names
 const matches = "Matches";
@@ -41,11 +42,14 @@ export default function HomeScreen({ route, navigation }) {
               } else if (routeName === settings) {
                 iconName = focused ? "settings" : "settings-outline";
               }
-
+              else if (routeName === swipe) {
+                iconName = focused ? "swipe" : "settings-outline";
+              }
               return <Ionicons name={iconName} size={size} color={color} />;
             },
           })}
         >
+          <Tab.Screen name={swipe} component={SwipingScreen} />
           <Tab.Screen name={matches} component={MatchesScreen} />
           <Tab.Screen name={settings} component={SettingsScreen} />
         </Tab.Navigator>
@@ -56,5 +60,6 @@ export default function HomeScreen({ route, navigation }) {
         </React.Fragment>
       )}
     </React.Fragment>
+
   );
 }

@@ -1,9 +1,19 @@
 import * as React from "react";
-import { FlatList, StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Image } from "react-native";
+import {useState} from "react";
+import { Modal, FlatList, StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Image } from "react-native"
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MatchModal from "./MatchModal";
 
 export default function MatchesScreen({ navigation }) {
+  const [modalOn, setModal] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState({
+    id: null,
+    name: null,
+    people: null,
+    image: null,
+  });
+  
   const matches = [
     {
       id: 1,
@@ -43,9 +53,16 @@ export default function MatchesScreen({ navigation }) {
     },
   ];
 
+  let onPressMatch = (item) => {
+    setModal(!modalOn);
+    console.log(item.name);
+    setSelectedRestaurant(item);
+  }
+
   const match = ({ item }) => (
     <View style={ styles.item }>
-      <View style={ styles.background }>
+      <TouchableOpacity onPress={ () => { onPressMatch(item) } }
+      style={ styles.background }>
         <View style={ styles.imageContainer }>
           <Image source={ item.image } style={ styles.img } />
         </View>
@@ -55,7 +72,7 @@ export default function MatchesScreen({ navigation }) {
           <Text style={styles.info}>with...</Text>
           <Text style={styles.info}>{ item.people }</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 
@@ -65,6 +82,7 @@ export default function MatchesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <MatchModal showModal={modalOn} restaurantData={selectedRestaurant}></MatchModal>
       <FlatList
         data = { matches }
         renderItem = { match }
