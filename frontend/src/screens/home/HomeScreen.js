@@ -24,7 +24,7 @@ export default function HomeScreen({ route, navigation }) {
   const [restaurantInfo, setRestaurantInfo] = useState(null);
   
   const getRestaurants = () => {
-    getRestaurantsByZip(user.location);
+    return getRestaurantsByZip(user.location);
   }
 
   return (
@@ -56,7 +56,7 @@ export default function HomeScreen({ route, navigation }) {
       ) : (
         <React.Fragment>
             <LoadingPage />
-            {getRestaurants()}
+            {setRestaurants(getRestaurants())}
         </React.Fragment>
       )}
     </React.Fragment>
