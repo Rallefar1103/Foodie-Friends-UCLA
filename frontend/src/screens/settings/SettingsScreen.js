@@ -1,13 +1,16 @@
 import React from "react";
 
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import Preference from "./preference";
 import PreferenceItem from "../../components/settings/preferenceItem";
+import { signOut } from "../../firebase/auth";
+import { useNavigation } from '@react-navigation/native';
 
-const SettingsScreen = () => {
+export default function SettingsScreen({ navigation }){
+  
   const preferences = [
     { preference: new Preference("Keto"), id: Math.random().toString() },
     { preference: new Preference("Vegan"), id: Math.random().toString() },
@@ -50,6 +53,17 @@ const SettingsScreen = () => {
         ></FlatList>
       </View>
       <Text style={styles.moreText}> More </Text>
+      
+      <TouchableOpacity
+        onPress={() => {
+          signOut()
+          navigation.navigate("LogIn");
+        }}
+        style={styles.signOutButton}
+      > 
+        <Text style={styles.signOutText}> Sign Out!</Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
@@ -123,6 +137,19 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textDecorationLine: "underline",
   },
+  signOutButton: {
+    width: "30%",
+    elevation: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+  },
+  signOutText: {
+    fontSize: 13,
+    color: "black",
+    fontWeight: "bold",
+  },
 });
 
-export default SettingsScreen;
+
