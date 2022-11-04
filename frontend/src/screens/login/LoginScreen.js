@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }) {
               authenticate(email, password).then((user) => {
                 if (user) {
                   setLoginError(null);
-                  navigation.navigate("HomeScreen");
+                  navigation.navigate("HomeScreen", { user });
                 } else {
                   setLoginError("Failed to log in.");
                 }

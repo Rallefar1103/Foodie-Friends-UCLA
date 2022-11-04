@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { addUser } from "./addUser";
+import { addUser } from "../../firebase/firestore";
 
 export default function SignUpScreen({ route, navigation }) {
     const { userId } = route.params;
@@ -41,7 +41,7 @@ export default function SignUpScreen({ route, navigation }) {
             onPress={() => {
               addUser(userId, {userId, userName: name, userAge: age, location, prefList: {}}).then((addedUser) => {
                 if (addedUser) {
-                    navigation.navigate("HomeScreen");
+                    navigation.navigate("HomeScreen", { addedUser });
                 }
               })
             }}

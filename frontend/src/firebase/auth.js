@@ -5,6 +5,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import provideFirebaseApp from "./firebase";
+import { getUserInformation } from "./firestore";
 
 provideFirebaseApp();
 const auth = getAuth();
@@ -14,8 +15,11 @@ export const authenticate = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user);
       return user;
+    })
+    .then((user) => {
+        console.log(user)
+        return getUserInformation(user.uid);
     })
     .catch((error) => {
       console.log(error);
