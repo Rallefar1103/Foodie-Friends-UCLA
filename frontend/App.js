@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import HomeScreen from "./src/screens/home/HomeScreen";
 import provideFirebaseApp  from "./src/firebase/firebase";
 import SignUpScreen from "./src/screens/login/SignUpScreen";
+import { LogBox } from 'react-native';
 
 export default function App() {
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function App() {
   });
 
   const [isSignedIn, setIsSignedIn] = useState(false);
+  LogBox.ignoreAllLogs();//Ignore all log notifications
 
   const Stack = createStackNavigator();
 
