@@ -40,8 +40,13 @@ export const signUp = (email, password) => {
 export const signOut = () => {
     console.log("signout request");
     return auth.signOut()
-    .then(() => console.log('User signed out'))
-    .catch((error) => {
+    .then(() => {
+      console.log('User signed out');
       return null;
     })
-  }
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return null;
+    });
+};
