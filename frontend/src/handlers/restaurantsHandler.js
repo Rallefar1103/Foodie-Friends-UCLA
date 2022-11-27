@@ -1,22 +1,23 @@
 import HTTPHandler from "./httpHandler";
 import Restaurant from "../models/restaurant";
+import DBHandler from "./dbHandler";
 
 class RestaurantsHandler {
   _httpHandler;
-  _restaurantParser;
+  _dbHandler;
 
-  RestaurantsHandler(httpHandler, restaurantParser) {
-    this._httpHandler = httpHandler;
-    this._restaurantParser = restaurantParser;
+  RestaurantsHandler() {
+    this._httpHandler = new HTTPHandler();
+    this._dbHandler = new DBHandler();
   }
 
-  getRestaurants() {
-    var result = this._httpHandler.getRestaurants();
+  getRestaurants(zipcode) {
+    var result = this._dbHandler.getRestaurants(zipcode);
     var restaurants = [];
 
     if (result != null) {
       for (var res in result) {
-        restaurants.push(Restaurant(res));
+        restaurants.push(Restaurant.from(res));
       }
     }
 
