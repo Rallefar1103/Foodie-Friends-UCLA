@@ -1,8 +1,14 @@
 import * as React from "react";
 import {useState, useEffect} from "react";
 import { Modal, FlatList, StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Image } from "react-native";
+import * as SMS from 'expo-sms';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+
+const sendSMS = ( numbers ) => SMS.sendSMSAsync(
+  numbers,
+  'Hi guys! Let\'s eat together!',
+);
 
 export default function MatchModal(props) {
   const [showModal, setModal] = useState(true);
@@ -35,14 +41,16 @@ export default function MatchModal(props) {
             <Text style={styles.info}>with...</Text>
             <Text style={styles.info}>{restaurantData.people}</Text>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.chatButton}>
+              <TouchableOpacity onPress={ () => { sendSMS(restaurantData.numbers) }} style={styles.chatButton}>
                 <Text style={styles.buttonText}>Start a Chat!</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        <Button title="Close"
-          onPress={()=>{setModal(!showModal)}}/>
+        <View style={styles.closeButton}>
+          <Button title="Close"
+            onPress={()=>{setModal(!showModal)}}/>
+        </View>
       </Modal>
   );
 }
@@ -107,5 +115,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#bcbcbc',
     textAlign: 'center',
+  },
+  closeButton: {
+    paddingBottom: 20,
   }
 });

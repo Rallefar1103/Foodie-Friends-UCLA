@@ -12,6 +12,7 @@ export default function MatchesScreen({ navigation }) {
     name: null,
     people: null,
     image: null,
+    numbers: null,
   });
   
   const matches = [
@@ -20,36 +21,42 @@ export default function MatchesScreen({ navigation }) {
       name: 'Fat Sals',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/fatsals.png'),
+      numbers: ['4123456789', '9876543210'],
     },
     {
       id: 2,
       name: 'In-N-Out',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/innout.png'),
+      numbers: ['5123456789', '9876543210'],
     },
     {
       id: 3,
       name: 'Bruin Plate',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/bplate.png'),
+      numbers: ['6123456789', '9876543210'],
     },
     {
       id: 4,
       name: 'Fat Sals',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/fatsals.png'),
+      numbers: ['4123456789', '9876543210'],
     },
     {
       id: 5,
       name: 'In-N-Out',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/innout.png'),
+      numbers: ['5123456789', '9876543210'],
     },
     {
       id: 6,
       name: 'Bruin Plate',
       people: 'Joe B., Josie B., Jack S.',
       image: require('../../../assets/images/bplate.png'),
+      numbers: ['6123456789', '9876543210'],
     },
   ];
 
