@@ -6,7 +6,7 @@ class RestaurantsHandler {
   _httpHandler;
   _dbHandler;
 
-  RestaurantsHandler() {
+  constructor() {
     this._httpHandler = new HTTPHandler();
     this._dbHandler = new DBHandler();
   }
