@@ -50,7 +50,7 @@ export default function HomeScreen({ route, navigation }) {
           })}
         >
           <Tab.Screen name={swipe}>
-            {() => <SwipingScreen data={restaurantInfo} />}          
+            {() => <SwipingScreen data={restaurantInfo} user={user} />}          
           </Tab.Screen>
           <Tab.Screen name={matches} component={MatchesScreen} initialParams={ {user: user} }/>
           <Tab.Screen name={settings} component={SettingsScreen} />
