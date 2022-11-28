@@ -130,9 +130,7 @@ export default function MatchesScreen({ route, navigation }) {
           onRefresh={onRefresh}
         />}
         >
-          <a href="https://google.com">
        <Text style={styles.emptyText}>No matches, start swiping!</Text>
-        </a>
         </ScrollView>
       </SafeAreaView>
     );

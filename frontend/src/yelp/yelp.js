@@ -40,7 +40,7 @@ const getNewRestaurants = (zipcode) => {
 
 const parseResponse = (data) => {
     const { businesses } = data;
-    const parsedData = businesses.map(({id, categories, distance, image_url, location, name, price, rating}) => ({
+    const parsedData = businesses.map(({id, categories, distance, image_url, location, name, price, rating, url}) => ({
         id,
         categories : categories ?? [],
         distance : distance ?? -1,
@@ -48,7 +48,8 @@ const parseResponse = (data) => {
         location : location ?? {},
         name : name ?? "",
         price : price ?? "",
-        rating: rating ?? -1
+        rating: rating ?? -1,
+        url: url ?? "",
     }));
 
     return parsedData;
