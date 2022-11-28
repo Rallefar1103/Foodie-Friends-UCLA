@@ -141,8 +141,13 @@ export const recordUserSwipe = async (restaurantId, userId) => {
 
   const docRef = doc(db, "tempMatches", restaurantId);
   const docSnap = await getDoc(docRef);
-  const {userId, userNumber} = await getUserById(userId);
-  const userObj = {userId : userNumber}
+  const userData = await getUserById(userId);
+  const {userName, userNumber} = userData;
+  const userObj = {
+    userId,
+    userName,
+    userNumber
+  };
 
   if (docSnap.exists()) {
     //update document
