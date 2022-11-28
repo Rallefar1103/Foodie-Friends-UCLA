@@ -1,5 +1,6 @@
 import * as React from "react";
 import {useState, useEffect} from "react";
+import * as SMS from "expo-sms";
 import { Modal, FlatList, StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
