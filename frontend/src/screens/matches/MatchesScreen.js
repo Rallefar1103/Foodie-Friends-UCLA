@@ -23,6 +23,9 @@ import {
 } from "../../firebase/firestore";
 
 const populateMatch = async (matchIds, arr) => {
+  if (matchIds.length == 0) {
+    return [];
+  }
   for (let i = 0; i < matchIds.length; i++) {
     const matchData = await getMatchInformation(matchIds[i]);
     let nameList = "";
@@ -84,9 +87,12 @@ export default function MatchesScreen({ route, navigation }) {
     getUserInformation(user.id)
     .then((user) => {
       populateMatch(user.matches, []).then((res) => {
-        const currMatch = { matches: res };
-        setMatches(currMatch);
-        console.log(matches);
+        if (res.length > 0) {
+          setLoading(false);
+          const currMatch = { matches: res };
+          setMatches(currMatch);
+          console.log(matches);
+        }
         setRefreshing(false);
       })
       .catch((error) => {
