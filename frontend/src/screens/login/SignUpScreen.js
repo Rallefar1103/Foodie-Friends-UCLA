@@ -6,6 +6,8 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { signUp } from "../../firebase/auth";
 import { addUser } from "../../firebase/firestore";
@@ -23,7 +25,9 @@ export default function SignUpScreen({ navigation }) {
     const [loginError, setLoginError] = useState(null);
 
   return (
-    <View style={styles.screenContainer}>
+    <SafeAreaView style={styles.screenContainer}>
+      <ScrollView style={styles.scrollView}>
+
         <TextInput
           id="email"
           style={styles.textInput}
@@ -98,7 +102,9 @@ export default function SignUpScreen({ navigation }) {
         ) : (
           <React.Fragment></React.Fragment>
         )}
-    </View>
+   
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -107,7 +113,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#ffb980",
-    justifyContent: "center",
+  },
+  scrollView:{
+    backgroundColor: "#ffb980",
+    paddingTop: 100,
+ 
   },
   textInput: {
     borderWidth: 1,
@@ -119,7 +129,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   signInButton: {
-    width: "30%",
+    width: "60%",
     elevation: 10,
     backgroundColor: "white",
     borderRadius: 10,
