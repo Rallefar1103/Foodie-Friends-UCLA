@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 50,
     width: 200,
-    marginBottom: 5
+    marginBottom: 5,
+    paddingLeft: 10,
   },
   signInButton: {
     width: "30%",

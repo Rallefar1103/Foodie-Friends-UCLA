@@ -43,7 +43,7 @@ export default function HomeScreen({ route, navigation }) {
                 iconName = focused ? "settings" : "settings-outline";
               }
               else if (routeName === swipe) {
-                iconName = focused ? "swipe" : "settings-outline";
+                iconName = focused ? "play" : "play-outline";
               }
               return <Ionicons name={iconName} size={size} color={color} />;
             },
