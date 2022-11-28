@@ -38,6 +38,17 @@ const styles = StyleSheet.create({
   caption: {
     paddingTop: 20,
     marginLeft: 5,
+    paddingLeft: 2,
+    color: "white",
+    fontSize: 20,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowRadius: 10,
+  },
+
+  categories: {
+    paddingTop: 20,
+    marginLeft: 5,
+    paddingLeft: 6,
     color: "white",
     fontSize: 20,
     textShadowColor: "rgba(0, 0, 0, 0.75)",
@@ -74,8 +85,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     alignContent: "center",
-    marginLeft: 5
+    marginLeft: 10
   },
+  buttonText: {
+    alignSelf: 'center'
+  },
+  infoContainer: {
+    flexDirection: 'column',
+    flex: 1,
+    paddingTop: '10%',
+    paddingLeft: '2%',
+    alignContent: "flex-start",
+  }
 });
 
 const _handlePressButtonAsync = async (url) => {
@@ -127,24 +148,26 @@ const SwipingScreen = (props, { navigation }) => {
                     style={styles.image}
                     source={{ uri: card.uri }}
                   >
-                    <Text style={styles.title}> {card.name} </Text>
-                    <Text style={styles.caption}>
-                      {card.categories
-                        .map((category) => category.title)
-                        .join(", ")}
-                    </Text>
-                    <Text style={styles.caption}>
-                      {" "}
-                      {card.distance} miles away | {card.price} | {card.rating}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        _handlePressButtonAsync(card.url);
-                      }}
-                      style={styles.signInButton}
-                    >
-                    <Text>View on Yelp!</Text>
-                    </TouchableOpacity>
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.title}> {card.name} </Text>
+                      <Text style={styles.categories}>
+                        {card.categories
+                          .map((category) => category.title)
+                          .join(", ")}
+                      </Text>
+                      <Text style={styles.caption}>
+                        {" "}
+                        {card.distance} miles away | {card.price} | {card.rating}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          _handlePressButtonAsync(card.url);
+                        }}
+                        style={styles.signInButton}
+                      >
+                      <Text styles={styles.buttonText}>View on Yelp!</Text>
+                      </TouchableOpacity>
+                    </View>
                   </ImageBackground>
                 </View>
                 
