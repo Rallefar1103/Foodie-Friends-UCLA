@@ -53,7 +53,7 @@ export default function HomeScreen({ route, navigation }) {
             {() => <SwipingScreen data={restaurantInfo} user={user} />}          
           </Tab.Screen>
           <Tab.Screen name={matches} component={MatchesScreen} initialParams={ {user: user} }/>
-          <Tab.Screen name={settings} component={SettingsScreen} />
+          <Tab.Screen name={settings} component={SettingsScreen} initialParams={ {user: user} }/>
         </Tab.Navigator>
       ) : (
         <React.Fragment>
