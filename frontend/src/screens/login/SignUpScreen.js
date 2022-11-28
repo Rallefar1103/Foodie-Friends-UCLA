@@ -72,8 +72,8 @@ export default function SignUpScreen({ navigation }) {
             onPress={() => {
               signUp(email, password).then((user) => {
                 if(user){
-                  var temp = user.user.uid;
-                  addUser(temp, {temp, userNumber: number, userName: name, userAge: age, location, prefList: {}}).then((addedUser) => {
+                  var id = user.user.uid;
+                  addUser(id, {id, userNumber: number, userName: name, userAge: age, location, prefList: {}}).then((addedUser) => {
                     if(addedUser){
                       navigation.navigate("HomeScreen", { user: addedUser });
                     }

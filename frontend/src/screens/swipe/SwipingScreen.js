@@ -5,6 +5,7 @@ import Swiper from 'react-native-deck-swiper'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 import { useState } from "react";
+import { recordUserSwipe } from "../../firebase/firestore";
 
 const styles = StyleSheet.create({
     CardContainer : {
@@ -65,13 +66,14 @@ const getRestaurantFormats = (json_data) =>{
         var sub_info = json_data[restaurant];
         console.log(sub_info);
         var replace_to_miles = Math.round( (sub_info["distance"] / 1609.344) * 10) / 10;
-        var arr = {uri: sub_info["imageUrl"], name: sub_info["name"],distance: replace_to_miles, price: sub_info["price"], rating: sub_info["rating"]};
+        var arr = {uri: sub_info["imageUrl"], name: sub_info["name"],distance: replace_to_miles, price: sub_info["price"], rating: sub_info["rating"], id: sub_info["id"]};
         Restaurants.push(arr);
     }
 }
 const SwipingScreen = (props, {navigation}) => {
     console.log("hi")
     const input_data = props.data;
+    const user = props.user;
     const data = input_data["_z"]["_z"]
     getRestaurantFormats(data)
     return (
@@ -93,7 +95,7 @@ const SwipingScreen = (props, {navigation}) => {
                     )
                 }}
                 onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onSwipedRight={(cardIndex) => {console.log(Restaurants[cardIndex])}}
+                onSwipedRight={(cardIndex) => recordUserSwipe(Restaurants[cardIndex].id, user.id)}
                 onSwipedLeft={(cardIndex) => {console.log(Restaurants[cardIndex])}}
                 cardIndex={0}
                 infinite

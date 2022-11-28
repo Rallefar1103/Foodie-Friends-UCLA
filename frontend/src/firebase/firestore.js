@@ -7,7 +7,10 @@ import {
   collection,
   query,
   where,
-  getDocs
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  deleteDoc
 } from "firebase/firestore";
 
 const db = getFirestore();
@@ -113,3 +116,60 @@ export const addRestaurantsToDB = async (restaurantData) => {
   await batch.commit();
   console.log("restaurants added!");
 };
+
+export const createMatch = async (data) => {
+  // create match with users, add match to user document, delete from tempTable
+  matchId = data.restaurantId + '-'  + data.users.join('-');
+  users = data.users;
+  restaurantId = data.restaurantId;
+  restaurantInfo = await getRestaurantInformation(restaurantId);
+  restaurantName = restaurantInfo.name;
+  restaurantImageUrl = restaurantInfo.imageUrl;
+  restaurantLocation = restaurantInfo.location.display_address.join(", ");
+
+  await setDoc(doc(db, "matches", matchId), {
+    id: matchId,
+    users,
+    restaurantId,
+    restaurantName,
+    restaurantImageUrl,
+    restaurantLocation,
+  });
+
+  users.forEach(async (userId) => {
+    await updateDoc(doc(db, "users", userId), {
+      matches: arrayUnion(matchId)
+    });
+  });
+}
+
+export const recordUserSwipe = async (restaurantId, userId) => {
+  // check if restaurant id exists, create if doesn't
+  // check user count if >= 4, create match and assign users to it 
+  // update user documents with match id
+
+  console.log("RECORD USER SWIPE: ", userId, restaurantId); 
+  const docRef = doc(db, "tempMatches", restaurantId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    data.users.indexOf(userId) === -1 ? data.users.push(userId) : console.log("user in temp match");
+    //update document
+    if (data.users.length >= 2) {
+      console.log("CREATING MATCH!")
+      await createMatch(data);
+      await deleteDoc(docRef);
+    } 
+    else {
+      await updateDoc(docRef, data);
+      console.log("User added to temp match")
+    }
+
+  } else {
+    await setDoc(doc(db, "tempMatches", restaurantId), {
+      restaurantId: restaurantId,
+      users: [userId]
+    })
+  }
+}
