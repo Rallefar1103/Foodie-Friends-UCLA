@@ -4,11 +4,11 @@ import {Tile } from 'react-native-elements'
 import Swiper from 'react-native-deck-swiper'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
-
+import { useState } from "react";
 
 const styles = StyleSheet.create({
     CardContainer : {
-        height: SCREEN_HEIGHT -200,
+        height: SCREEN_HEIGHT  ,
         width: SCREEN_WIDTH - 20,
         borderRadius: 20,
         overflow: 'hidden', // this does magic
@@ -18,10 +18,13 @@ const styles = StyleSheet.create({
 
     title: {
         position: 'absolute',
-        left: 10,
         bottom: 30,
+        left:7,
         color: 'white',
-        fontSize: 40
+        fontSize: '30%',
+        fontWeight: 'bold',
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowRadius: 10
     },
 
     caption: {
@@ -29,7 +32,9 @@ const styles = StyleSheet.create({
         left: 10,
         bottom: 10,
         color: 'white',
-        fontSize: 20
+        fontSize: 20,
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowRadius: 10
       },
 
     container: {
@@ -50,39 +55,53 @@ const styles = StyleSheet.create({
     }
 })
 
-const Foods = [
-    { pic: require('frontend/assets/images/gene.png'), title: "my name is gene block",  caption: "20 miles away"},
-    { pic: require('frontend/assets/images/gene.png'), title: "gene", caption: "1 mile away" }
-  ]
 
-const SwipingScreen = () => {
+const Restaurants = [
 
+]
+
+const getRestaurantFormats = (json_data) =>{
+    for (var restaurant in json_data) {
+        var sub_info = json_data[restaurant];
+        console.log(sub_info);
+        var replace_to_miles = Math.round( (sub_info["distance"] / 1609.344) * 10) / 10;
+        var arr = {uri: sub_info["imageUrl"], name: sub_info["name"],distance: replace_to_miles, price: sub_info["price"], rating: sub_info["rating"]};
+        Restaurants.push(arr);
+    }
+}
+const SwipingScreen = (props, {navigation}) => {
+    console.log("hi")
+    const input_data = props.data;
+    const data = input_data["_z"]["_z"]
+    getRestaurantFormats(data)
     return (
         <View style={styles.container}>
             <Swiper
-                cards={Foods}
+                cards={Restaurants}
                 renderCard={(card) =>{
                     
                     return (
-                        <View style ={styles.card}>
+                        <View style ={styles.card}>                    
                             <ImageBackground style={styles.image}
-                                source={card.pic}>
-                                <Text style={styles.title}> {card.title} </Text> 
-                                <Text style={styles.caption}> {card.caption} </Text> 
+                                source={{uri: card.uri}}>
+                                <Text style={styles.title}> {card.name} </Text> 
+                                <Text style={styles.caption}> {card.distance} miles away ({card.price}) </Text> 
 
                             </ImageBackground>
+
                         </View>
                     )
                 }}
                 onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onSwipedAll={() => {console.log('onSwipedAll')}}
+                onSwipedRight={(cardIndex) => {console.log(Restaurants[cardIndex])}}
+                onSwipedLeft={(cardIndex) => {console.log(Restaurants[cardIndex])}}
                 cardIndex={0}
                 infinite
                 useNativeDriver= 'true'
                 disableTopSwipe='true'
                 disableBottomSwipe='true'
                 backgroundColor={'#FFF'}
-                stackSize= {2}></Swiper>
+                stackSize= {1}></Swiper>
         </View>
     );
 };
