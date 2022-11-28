@@ -34,11 +34,11 @@ export default function MatchModal(props) {
         <View style={styles.container}>
           <View style={styles.background}>
             <View style={ styles.imageContainer }>
-                <Image source={ restaurantData.image } style={ styles.img } />
+                <Image source={ {uri: restaurantData.restaurantImageUrl} } style={ styles.img } />
             </View>
-            <Text style={styles.name}>{restaurantData.name}</Text>
+            <Text style={styles.name}>{restaurantData.restaurantName}</Text>
             <Text style={styles.info}>with...</Text>
-            <Text style={styles.info}>{restaurantData.people}</Text>
+            <Text style={styles.info}>{restaurantData.nameList}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={ () => { sendSMS(restaurantData.numbers) }} style={styles.chatButton}>
                 <Text style={styles.buttonText}>Start a Chat!</Text>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   imageContainer: {
       backgroundColor: '#606060',
       borderRadius: 30,
-      height: "20%",
+      height: "50%",
       width: "90%",
       justifyContent: 'center',
       alignItems: 'center',

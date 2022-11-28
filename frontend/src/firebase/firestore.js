@@ -37,6 +37,32 @@ export const getUserInformation = async (userId) => {
   }
 };
 
+export const getMatchInformation = async (matchId) => {
+  const docRef = doc(db, "matches", matchId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data();
+  } else {
+    console.log("No such document!");
+    return null;
+  }
+};
+
+export const getRestaurantInformation = async (resId) => {
+  const docRef = doc(db, "restaurants", resId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data();
+  } else {
+    console.log("No such document!");
+    return null;
+  }
+};
+
 export const checkLocation = async (zipcode) => {
   console.log(zipcode);
   const docRef = doc(db, "locations", zipcode);
