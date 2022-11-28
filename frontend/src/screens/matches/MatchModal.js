@@ -40,6 +40,9 @@ export default function MatchModal(props) {
             <Text style={styles.name}>{restaurantData.restaurantName}</Text>
             <Text style={styles.info}>with...</Text>
             <Text style={styles.info}>{restaurantData.nameList}</Text>
+            <View style={styles.locationSeparator}/>
+            <Text style={styles.info}>at...</Text>
+            <Text style={styles.info}>{restaurantData.restaurantLocation}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={ () => { sendSMS(restaurantData.numbers) }} style={styles.chatButton}>
                 <Text style={styles.buttonText}>Start a Chat!</Text>
@@ -118,5 +121,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     paddingBottom: 20,
+  },
+  locationSeparator: {
+    height: 10,
   }
 });

@@ -15,8 +15,8 @@ const populateMatch = async (matchIds, arr) => {
     for (let j=0; j<matchData.users.length; j++) {
       const usr = await getUserInformation(matchData.users[j]);
       nameList += usr.userName + ", ";
-      if(usr.hasOwnProperty('phoneNumber')) {
-        numbersList.push(usr.phoneNumber);
+      if(usr.hasOwnProperty('userNumber')) {
+        numbersList.push(usr.userNumber);
       }
     }
     matchData.nameList = nameList.slice(0, nameList.length - 2);
