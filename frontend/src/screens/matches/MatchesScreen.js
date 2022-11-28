@@ -4,61 +4,56 @@ import { Modal, FlatList, StyleSheet, Text, View, Button, TouchableOpacity, Safe
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MatchModal from "./MatchModal";
+import { getUserInformation, getMatchInformation, getRestaurantInformation } from "../../firebase/firestore";
 
-export default function MatchesScreen({ navigation }) {
+
+const populateMatch = async (matchIds, arr) => {
+  for (let i=0; i<matchIds.length; i++) {
+    const matchData = await getMatchInformation(matchIds[i]);
+    let nameList = ""
+    for (let j=0; j<matchData.users.length; j++) {
+      const usr = await getUserInformation(matchData.users[j]);
+      nameList += usr.userName + ", ";
+    }
+    matchData.nameList = nameList.slice(0, nameList.length - 2);
+    arr.push(matchData);
+  }
+  return arr;
+};
+
+export default function MatchesScreen({ route, navigation }) {
   const [modalOn, setModal] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [selectedRestaurant, setSelectedRestaurant] = useState({
     id: null,
-    name: null,
-    people: null,
-    image: null,
+    restaurantId: null,
+    restaurantImageUrl: null,
+    restaurantLocation: null,
+    restaurantName: null,
+    users: null,
+    nameList: null,
     numbers: null,
   });
-  
-  const matches = [
-    {
-      id: 1,
-      name: 'Fat Sals',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/fatsals.png'),
-      numbers: ['4123456789', '9876543210'],
-    },
-    {
-      id: 2,
-      name: 'In-N-Out',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/innout.png'),
-      numbers: ['5123456789', '9876543210'],
-    },
-    {
-      id: 3,
-      name: 'Bruin Plate',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/bplate.png'),
-      numbers: ['6123456789', '9876543210'],
-    },
-    {
-      id: 4,
-      name: 'Fat Sals',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/fatsals.png'),
-      numbers: ['4123456789', '9876543210'],
-    },
-    {
-      id: 5,
-      name: 'In-N-Out',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/innout.png'),
-      numbers: ['5123456789', '9876543210'],
-    },
-    {
-      id: 6,
-      name: 'Bruin Plate',
-      people: 'Joe B., Josie B., Jack S.',
-      image: require('../../../assets/images/bplate.png'),
-      numbers: ['6123456789', '9876543210'],
-    },
-  ];
+  const [matches, setMatches] = useState({
+    matches: null,
+  });
+
+  const {user} = route.params;
+
+  const matchIds = user.matches;
+
+  let matchArr = []
+
+  if (isLoading)
+  {
+    populateMatch(matchIds, matchArr).then(res => {
+      const currMatch = {matches: res}
+      setMatches(currMatch);
+      count = 10;
+      console.log(matches);
+      setLoading(false);
+    });
+  }
 
   let onPressMatch = (item) => {
     setModal(!modalOn);
@@ -71,13 +66,13 @@ export default function MatchesScreen({ navigation }) {
       <TouchableOpacity onPress={ () => { onPressMatch(item) } }
       style={ styles.background }>
         <View style={ styles.imageContainer }>
-          <Image source={ item.image } style={ styles.img } />
+          <Image source={ {uri: item.restaurantImageUrl} } style={ styles.img } />
         </View>
         <View>
-          <Text style={styles.name}>{ item.name }</Text>
+          <Text style={styles.name}>{ item.restaurantName }</Text>
           <Text/>
           <Text style={styles.info}>with...</Text>
-          <Text style={styles.info}>{ item.people }</Text>
+          <Text style={styles.info}>{ item.nameList }</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -87,11 +82,14 @@ export default function MatchesScreen({ navigation }) {
     return <View style={ styles.separator }/>
   }
 
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       <MatchModal showModal={modalOn} restaurantData={selectedRestaurant}></MatchModal>
       <FlatList
-        data = { matches }
+        data = { matches.matches }
         renderItem = { match }
         ItemSeparatorComponent = { itemSeparator }
         ListEmptyComponent = { <Text>You have no matches :(</Text> }

@@ -50,13 +50,13 @@ export default function HomeScreen({ route, navigation }) {
           })}
         >
           <Tab.Screen name={swipe} component={SwipingScreen} />
-          <Tab.Screen name={matches} component={MatchesScreen} />
+          <Tab.Screen name={matches} component={MatchesScreen} initialParams={ {user: user} }/>
           <Tab.Screen name={settings} component={SettingsScreen} />
         </Tab.Navigator>
       ) : (
         <React.Fragment>
             <LoadingPage />
-            {setRestaurants(getRestaurants())}
+            {setRestaurantInfo(getRestaurants())}
         </React.Fragment>
       )}
     </React.Fragment>
