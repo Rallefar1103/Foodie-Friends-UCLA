@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer, useState } from "react";
 
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -9,7 +9,9 @@ import PreferenceItem from "../../components/settings/preferenceItem";
 import { signOut } from "../../firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 
-export default function SettingsScreen({ navigation }){
+export default function SettingsScreen({ route, navigation }){
+
+  const [user, setUser] = useState(route.params.user);
   
   const preferences = [
     { preference: new Preference("Keto"), id: Math.random().toString() },
@@ -25,11 +27,11 @@ export default function SettingsScreen({ navigation }){
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={require("../../../assets/images/gene.png")}
+          source={require("../../../assets/images/blankuser.png")}
         />
       </View>
       <View style={styles.nameContainer}>
-        <Text style={styles.nameText}> Gene Block </Text>
+        <Text style={styles.nameText}> {user.userName} </Text>
         <View style={styles.editIcon}>
           <AntDesign name="edit" size={20} />
         </View>
@@ -37,7 +39,7 @@ export default function SettingsScreen({ navigation }){
       <View style={styles.locationContainer}>
         <Ionicons name="md-location-sharp" size={34} color="#ff7900" />
 
-        <Text style={styles.locationText}> Westwood, LA </Text>
+        <Text style={styles.locationText}> {user.location} </Text>
       </View>
       <View style={styles.preferencesContainer}>
         <FlatList
@@ -52,7 +54,6 @@ export default function SettingsScreen({ navigation }){
           }}
         ></FlatList>
       </View>
-      <Text style={styles.moreText}> More </Text>
       
       <TouchableOpacity
         onPress={() => {
@@ -149,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "black",
     fontWeight: "bold",
+    alignSelf: "center",
   },
 });
 
