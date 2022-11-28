@@ -157,7 +157,7 @@ const SwipingScreen = (props, { navigation }) => {
                       </Text>
                       <Text style={styles.caption}>
                         {" "}
-                        {card.distance} miles away | {card.price} | {card.rating}
+                        {card.distance} miles away | {card.price} | {card.rating} stars
                       </Text>
                       <TouchableOpacity
                         onPress={() => {
