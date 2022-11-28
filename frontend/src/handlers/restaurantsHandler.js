@@ -11,8 +11,8 @@ class RestaurantsHandler {
     this._dbHandler = new DBHandler();
   }
 
-  getRestaurantsForDisplay(zipcode) {
-    var result = this._dbHandler.getRestaurants(zipcode);
+  async getRestaurantsForDisplay(zipcode) {
+    var result = await this._dbHandler.getRestaurants(zipcode);
     var restaurants = [];
 
     if (result != null) {

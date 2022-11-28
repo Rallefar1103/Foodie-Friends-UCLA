@@ -4,11 +4,11 @@ import {
 } from "../firebase/firestore";
 
 export default class DBHandler {
-  getRestaurants(zipcode) {
-    return getRestaurantsByZipFromDB(zipcode);
+  async getRestaurants(zipcode) {
+    return await getRestaurantsByZipFromDB(zipcode);
   }
 
-  getUserInfo(userId) {
-    return getUserInformation(userId);
+  async getUserInfo(userId) {
+    return await getUserInformation(userId);
   }
 }
