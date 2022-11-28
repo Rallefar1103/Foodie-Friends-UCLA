@@ -10,6 +10,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { authenticate, signUp } from "../../firebase/auth";
+import { Sae } from 'react-native-textinput-effects';
 
 export default function LoginScreen({ navigation }) {
   const [loginError, setLoginError] = useState(null);
@@ -26,19 +27,40 @@ export default function LoginScreen({ navigation }) {
 
       <Text style={styles.logoText}> Foodie Friends</Text>
       <View style={styles.buttonContainer}>
-        <TextInput
-          id="email"
-          style={styles.textInput}
-          placeholder="Enter email..."
-          onChangeText={(email) => setEmail(email)}
-        ></TextInput>
-        <TextInput
-          id="password"
-          secureTextEntry={true}
-          style={styles.textInput}
-          placeholder="Enter password..."
-          onChangeText={(password) => setPassword(password)}
-        ></TextInput>
+  <Sae
+    label={'Email Address'}
+    iconClass={FontAwesome}
+    iconName={'pencil'}
+    iconColor={'white'}
+    inputPadding={10}
+    labelHeight={24}
+    // active border height
+    borderHeight={2}
+    // TextInput props
+    autoCapitalize={'none'}
+    autoCorrect={false}
+    onChangeText={(email) => setEmail(email)}
+    labelStyle = {{color: '#ff7900'}}
+  />
+
+<Sae
+    label={'Password'}
+    iconClass={FontAwesome}
+    iconName={'pencil'}
+    iconColor={'white'}
+    inputPadding={10}
+    labelHeight={24}
+    // active border height
+    borderHeight={2}
+    // TextInput props
+    autoCapitalize={'none'}
+    autoCorrect={false}
+    onChangeText={(password) => setPassword(password)}
+    secureTextEntry={true}
+    style={styles.input}
+    labelStyle = {{color: '#ff7900'}}
+  />
+        
 
         <View style={styles.formContainer}>
           <TouchableOpacity
@@ -84,6 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffb980",
     justifyContent: "center",
   },
+  input: {
+    marginBottom: 20,
+  },
 
   formContainer: {
     flexDirection: "row",
@@ -115,6 +140,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     alignContent: "center",
+    marginRight: 10
   },
 
   signInText: {
@@ -138,5 +164,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 200,
     paddingLeft: 10,
+    marginBottom: 10
   },
 });

@@ -11,122 +11,180 @@ import {
 } from "react-native";
 import { signUp } from "../../firebase/auth";
 import { addUser } from "../../firebase/firestore";
-
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Sae } from "react-native-textinput-effects";
 
 export default function SignUpScreen({ navigation }) {
-    //const { userId } = route.params;
-    const [email, setEmail] = useState("");
-    const [number, setNumber] = useState("");
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [location, setLocation] = useState("");
-    const [password, setPassword] = useState("");
-    const [userId, setuserId] = useState("");
-    const [loginError, setLoginError] = useState(null);
+  //const { userId } = route.params;
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [location, setLocation] = useState("");
+  const [password, setPassword] = useState("");
+  const [userId, setuserId] = useState("");
+  const [loginError, setLoginError] = useState(null);
 
   return (
     <SafeAreaView style={styles.screenContainer}>
       <ScrollView style={styles.scrollView}>
-
-        <TextInput
-          id="email"
-          style={styles.textInput}
-          placeholder="Enter email..."
+        <Sae
+          label={"Email"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
           onChangeText={(email) => setEmail(email)}
-        ></TextInput>
-        <TextInput
-          id="password"
-          secureTextEntry={true}
+          labelStyle={{ color: "#ff7900" }}
           style={styles.textInput}
-          placeholder="Enter password..."
+        />
+
+        <Sae
+          label={"Password"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
           onChangeText={(password) => setPassword(password)}
-        ></TextInput>
-        
-        <TextInput
-          id="number"
-          style={styles.textInput}
-          placeholder="Enter phone number..."
-          keyboardType='numeric'
+          secureTextEntry={true}
+          labelStyle={{ color: "#ff7900" }}
+        />
+
+        <Sae
+          label={"Number"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          labelStyle={{ color: "#ff7900" }}
+          keyboardType="numeric"
           onChangeText={(number) => setNumber(number)}
-        ></TextInput>   
-       
-         <TextInput
-          id="name"
-          style={styles.textInput}
-          placeholder="Enter your preferred name..."
-          onChangeText={(name) => setName(name)}
-        ></TextInput>
-        
-        <TextInput
-          id="age"
-          keyboardType='numeric'
-          style={styles.textInput}
-          placeholder="Enter age..."
+        />
+
+        <Sae
+          label={"Age"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          keyboardType="numeric"
           onChangeText={(age) => setAge(age)}
-        ></TextInput>
-        
-        <TextInput
-          id="zipcode"
-          keyboardType='numeric'
-          style={styles.textInput}
-          placeholder="Enter zipcode..."
+          labelStyle={{ color: "#ff7900" }}
+        />
+
+        <Sae
+          label={"Zipcode"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          keyboardType="numeric"
           onChangeText={(zipcode) => setLocation(zipcode)}
-        ></TextInput>
+          labelStyle={{ color: "#ff7900" }}
+        />
+
+        <Sae
+          label={"Preferred Name"}
+          iconClass={FontAwesome}
+          iconName={"pencil"}
+          iconColor={"white"}
+          inputPadding={10}
+          labelHeight={24}
+          // active border height
+          borderHeight={2}
+          // TextInput props
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          onChangeText={(name) => setName(name)}
+          labelStyle={{ color: "#ff7900" }}
+          style={styles.input}
+        />
+
         <TouchableOpacity
-            onPress={() => {
-              signUp(email, password).then((user) => {
-                if(user){
-                  var id = user.user.uid;
-                  addUser(id, {id, userNumber: number, userName: name, userAge: age, location, prefList: {}}).then((addedUser) => {
-                    if(addedUser){
-                      navigation.navigate("HomeScreen", { user: addedUser });
-                    }
-                    else{
-                      setLoginError("Failed to add User"); 
-                    }
-                      
-                  })
-                } else{
-                  setLoginError("Failed to sign up ");
-                }
-              });
-              
-            }}
-            style={styles.signInButton}
-          >
+          onPress={() => {
+            signUp(email, password).then((user) => {
+              if (user) {
+                var id = user.user.uid;
+                addUser(id, {
+                  id,
+                  userNumber: number,
+                  userName: name,
+                  userAge: age,
+                  location,
+                  prefList: {},
+                }).then((addedUser) => {
+                  if (addedUser) {
+                    navigation.navigate("HomeScreen", { user: addedUser });
+                  } else {
+                    setLoginError("Failed to add User");
+                  }
+                });
+              } else {
+                setLoginError("Failed to sign up ");
+              }
+            });
+          }}
+          style={styles.signInButton}
+        >
           <Text style={styles.signInText}> Create profile!</Text>
-          </TouchableOpacity>
-          
-          {loginError ? (
+        </TouchableOpacity>
+
+        {loginError ? (
           <Text style={styles.errorText}>{loginError}</Text>
         ) : (
           <React.Fragment></React.Fragment>
         )}
-   
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  input: {
+    marginBottom: 25,
+  },
   screenContainer: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#ffb980",
   },
-  scrollView:{
+  scrollView: {
     backgroundColor: "#ffb980",
     paddingTop: 100,
     alignContent: "center",
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 50,
-    height: 50,
     width: 200,
-    marginBottom: 5,
-    paddingLeft: 10,
   },
   signInButton: {
     width: "60%",
@@ -136,6 +194,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     alignSelf: "center",
+    marginTop: 5,
   },
 
   signInText: {

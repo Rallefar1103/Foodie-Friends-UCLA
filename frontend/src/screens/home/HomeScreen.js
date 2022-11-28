@@ -22,10 +22,10 @@ const Tab = createBottomTabNavigator();
 export default function HomeScreen({ route, navigation }) {
   const { user } = route.params;
   const [restaurantInfo, setRestaurantInfo] = useState(null);
-  
+
   const getRestaurants = () => {
     return getRestaurantsByZip(user.location);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -41,27 +41,45 @@ export default function HomeScreen({ route, navigation }) {
                 iconName = focused ? "home" : "home-outline";
               } else if (routeName === settings) {
                 iconName = focused ? "settings" : "settings-outline";
-              }
-              else if (routeName === swipe) {
-                iconName = focused ? "play" : "play-outline";
+              } else if (routeName === swipe) {
+                iconName = focused ? "copy" : "copy-outline";
               }
               return <Ionicons name={iconName} size={size} color={color} />;
             },
           })}
         >
-          <Tab.Screen name={swipe}>
-            {() => <SwipingScreen data={restaurantInfo} user={user} />}          
+          <Tab.Screen name={swipe} options={{
+              headerTransparent: true,
+              headerTitle: "",
+            }}>
+            {() => <SwipingScreen data={restaurantInfo} user={user} />}
           </Tab.Screen>
-          <Tab.Screen name={matches} component={MatchesScreen} initialParams={ {user: user} }/>
-          <Tab.Screen name={settings} component={SettingsScreen} initialParams={ {user: user} }/>
+          <Tab.Screen
+            name={matches}
+            component={MatchesScreen}
+            initialParams={{ user: user }}
+            tabBarLabel={null}
+            options={{
+              headerTransparent: true,
+              headerTitle: "",
+            }}
+          />
+          <Tab.Screen
+            name={settings}
+            component={SettingsScreen}
+            initialParams={{ user: user }}
+            options={{
+              headerTransparent: true,
+              headerTitle: "",
+            }}
+          />
         </Tab.Navigator>
       ) : (
         <React.Fragment>
-            <LoadingPage />
-            {setRestaurantInfo(getRestaurants())}
+          <LoadingPage />
+          {setRestaurantInfo(getRestaurants())}
         </React.Fragment>
       )}
     </React.Fragment>
-
   );
 }

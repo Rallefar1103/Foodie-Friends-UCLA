@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         overflow: 'hidden', // this does magic
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent:'center',
     },
 
     title: {
@@ -40,18 +40,21 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
+        marginTop: 10,
       },
       card: {
         flex: 1,
         borderRadius: 20,
         paddingBottom: 150,
         justifyContent: "center",
-        overflow:'hidden'
+        overflow:'hidden',
       },
     image : {
         height: "100%",
         width: "100%",
         borderRadius: 20,
+        borderWidth: 2,
+        borderColor: '#ffb980',
         overflow:'hidden'
     }
 })
@@ -107,8 +110,8 @@ const SwipingScreen = (props, {navigation}) => {
                         useNativeDriver= 'true'
                         disableTopSwipe='true'
                         disableBottomSwipe='true'
-                        backgroundColor={'#FFF'}
-                        stackSize= {1}>
+                        backgroundColor={'#fff'}
+                        stackSize= {5}>
                     </Swiper>
                 </View>
             ) : ( 

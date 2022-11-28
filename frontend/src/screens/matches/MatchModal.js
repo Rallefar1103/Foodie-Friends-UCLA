@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'column',
       alignItems: 'center',
-      backgroundColor: '#aaaaaa',
+      backgroundColor: '#ffb980',
       height: '100%',
       width: '100%',
       justifyContent: 'center',
@@ -92,13 +92,16 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: '600',
     fontSize: 20,
-    color: "#f4f4f4",
+    color: "white",
     paddingVertical: 10,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+  textShadowOffset: {width: 1, height: 1},
+  textShadowRadius: 5
   },
   info: {
     fontWeight: '500',
     fontSize: 15,
-    color: '#e5e5e5',
+    color: '#606060',
   },
   buttonContainer: {
     height: 40,
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: '500',
     fontSize: 15,
-    color: '#bcbcbc',
+    color: 'black',
     textAlign: 'center',
   },
   closeButton: {

@@ -88,7 +88,10 @@ export default function MatchesScreen({ route, navigation }) {
         setMatches(currMatch);
         console.log(matches);
         setRefreshing(false);
-      });
+      })
+      .catch((error) => {
+        setRefreshing(false);
+      })
     })
   }, []);
 
@@ -118,7 +121,21 @@ export default function MatchesScreen({ route, navigation }) {
   };
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />}
+        >
+          <a href="https://google.com">
+       <Text style={styles.emptyText}>No matches, start swiping!</Text>
+        </a>
+        </ScrollView>
+      </SafeAreaView>
+    );
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -137,7 +154,7 @@ export default function MatchesScreen({ route, navigation }) {
         data={matches.matches}
         renderItem={match}
         ItemSeparatorComponent={itemSeparator}
-        ListEmptyComponent={<Text>You have no matches :(</Text>}
+        ListEmptyComponent={<Text>You have no matches :</Text>}
       />
       </ScrollView>
     </SafeAreaView>
@@ -145,6 +162,10 @@ export default function MatchesScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  emptyText: {
+    textAlign: "center",
+    marginTop: 50
+  },
   container: {
     flex: 1,
     marginHorizontal: 21,
@@ -180,21 +201,28 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "600",
     fontSize: 20,
-    color: "#f4f4f4",
+    color: "white",
     marginLeft: 15,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+  textShadowOffset: {width: 1, height: 1},
+  textShadowRadius: 5
   },
   info: {
     fontWeight: "500",
     fontSize: 15,
-    color: "#e5e5e5",
+    color: "#606060",
     marginLeft: 15,
   },
   background: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#aaaaaa",
-    borderRadius: 20,
+    backgroundColor: "#ffb980",
     height: 130,
     width: "90%",
+    borderRadius: 20,
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
 });
