@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   scrollView:{
     backgroundColor: "#ffb980",
     paddingTop: 100,
- 
+    alignContent: "center",
   },
   textInput: {
     borderWidth: 1,
@@ -135,11 +135,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 10,
+    alignSelf: "center",
   },
 
   signInText: {
     fontSize: 13,
     color: "black",
     fontWeight: "bold",
+  },
+
+  errorText: {
+    fontSize: 13,
+    color: "red",
+    fontWeight: "bold",
+    marginTop: 10,
+    textAlign: "center",
   },
 });
