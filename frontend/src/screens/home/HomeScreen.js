@@ -56,7 +56,7 @@ export default function HomeScreen({ route, navigation }) {
       ) : (
         <React.Fragment>
             <LoadingPage />
-            {setRestaurants(getRestaurants())}
+            {setRestaurantInfo(getRestaurants())}
         </React.Fragment>
       )}
     </React.Fragment>

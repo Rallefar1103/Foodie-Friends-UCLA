@@ -10,6 +10,8 @@ import {
   getDocs
 } from "firebase/firestore";
 
+import { v4 as uuid } from 'uuid';
+
 const db = getFirestore();
 
 export const addUser = async (userId, data) => {
@@ -87,3 +89,80 @@ export const addRestaurantsToDB = async (restaurantData) => {
   await batch.commit();
   console.log("restaurants added!");
 };
+
+export const getRestaurantById = async (restaurantId) => {
+  const docRef = doc(db, "restaurants", restaurantId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    console.log("No resaurant!");
+    return null;
+  }
+}
+
+export const getUserById = async (userId) => {
+  const docRef = doc(db, "users", userId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    console.log("No user!");
+    return null;
+  }
+}
+
+export const createMatch = async (docRef, data) => {
+  // create match with users, add match to user document, delete from tempTable
+  matchId = uuid();
+  users = data.users;
+  restaurantId = data.restaurantId;
+  restaurantInfo = await getRestaurantById(restaurantId);
+  restaurantName = restaurantInfo.name;
+  restaurantImageUrl = restaurantInfo.imageUrl;
+  restaurantLocation = restaurantData.location.display_address.join(", ");
+
+  return setDoc(doc(db, "matches", matchId), {
+    id: matchId,
+    users,
+    restaurantId,
+    restaurantName,
+    restaurantImageUrl,
+    restaurantLocation,
+  })
+}
+
+export const recordUserSwipe = async (restaurantId, userId) => {
+  // check if restaurant id exists, create if doesn't
+  // check user count if >= 4, create match and assign users to it 
+  // update user documents with match id
+
+  const docRef = doc(db, "tempMatches", restaurantId);
+  const docSnap = await getDoc(docRef);
+  const {userId, userNumber} = await getUserById(userId);
+  const userObj = {userId : userNumber}
+
+  if (docSnap.exists()) {
+    //update document
+    data = docSnap.data();
+    data.users.push(userObj);
+    if (data.users.length >= 3) {
+      await createMatch(docRef, data);
+    } 
+    else {
+      await updateDoc(docRef, data);
+      console.log("User added to temp match")
+    }
+
+  } else {
+    setDoc(doc(db, "tempMatches", restaurantId), {
+      restaurantId: restaurantId,
+      users: [userObj]
+    })
+    .catch((error) => {
+      console.log("Couldn't create document!");
+    });
+  }
+}
