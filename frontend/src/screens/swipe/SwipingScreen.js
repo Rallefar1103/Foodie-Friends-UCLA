@@ -61,50 +61,62 @@ const Restaurants = [
 
 ]
 
-const getRestaurantFormats = (json_data) =>{
-    for (var restaurant in json_data) {
-        var sub_info = json_data[restaurant];
-        console.log(sub_info);
-        var replace_to_miles = Math.round( (sub_info["distance"] / 1609.344) * 10) / 10;
-        var arr = {uri: sub_info["imageUrl"], name: sub_info["name"],distance: replace_to_miles, price: sub_info["price"], rating: sub_info["rating"], id: sub_info["id"]};
-        Restaurants.push(arr);
-    }
-}
 const SwipingScreen = (props, {navigation}) => {
-    console.log("hi")
+    const [restaurantInfo, setRestaurantInfo] = useState(null);
     const input_data = props.data;
     const user = props.user;
     const data = input_data["_z"]["_z"]
-    getRestaurantFormats(data)
+
+    const getRestaurantFormats = (json_data) =>{
+        var temp_arr = []
+        for (var restaurant in json_data) {
+            var sub_info = json_data[restaurant];
+            console.log(sub_info);
+            var replace_to_miles = Math.round( (sub_info["distance"] / 1609.344) * 10) / 10;
+            var arr = {uri: sub_info["imageUrl"], name: sub_info["name"],distance: replace_to_miles, price: sub_info["price"], rating: sub_info["rating"], id: sub_info["id"]};
+            temp_arr.push(arr);
+        }
+        return temp_arr
+    }
+
     return (
-        <View style={styles.container}>
-            <Swiper
-                cards={Restaurants}
-                renderCard={(card) =>{
-                    
-                    return (
-                        <View style ={styles.card}>                    
-                            <ImageBackground style={styles.image}
-                                source={{uri: card.uri}}>
-                                <Text style={styles.title}> {card.name} </Text> 
-                                <Text style={styles.caption}> {card.distance} miles away ({card.price}) </Text> 
+        <React.Fragment>
+            {restaurantInfo ? (
+                <View style={styles.container}>
+                    <Swiper
+                        cards={restaurantInfo}
+                        renderCard={(card) =>{
+                            
+                            return (
+                                <View style ={styles.card}>                    
+                                    <ImageBackground style={styles.image}
+                                        source={{uri: card.uri}}>
+                                        <Text style={styles.title}> {card.name} </Text> 
+                                        <Text style={styles.caption}> {card.distance} miles away ({card.price}) </Text> 
 
-                            </ImageBackground>
+                                    </ImageBackground>
 
-                        </View>
-                    )
-                }}
-                onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onSwipedRight={(cardIndex) => recordUserSwipe(Restaurants[cardIndex].id, user.id)}
-                onSwipedLeft={(cardIndex) => {console.log(Restaurants[cardIndex])}}
-                cardIndex={0}
-                infinite
-                useNativeDriver= 'true'
-                disableTopSwipe='true'
-                disableBottomSwipe='true'
-                backgroundColor={'#FFF'}
-                stackSize= {1}></Swiper>
-        </View>
+                                </View>
+                            )
+                        }}
+                        onSwiped={(cardIndex) => {}}
+                        onSwipedRight={(cardIndex) => recordUserSwipe(restaurantInfo[cardIndex].id, user.id)}
+                        onSwipedLeft={(cardIndex) => {console.log(restaurantInfo[cardIndex])}}
+                        cardIndex={0}
+                        infinite
+                        useNativeDriver= 'true'
+                        disableTopSwipe='true'
+                        disableBottomSwipe='true'
+                        backgroundColor={'#FFF'}
+                        stackSize= {1}>
+                    </Swiper>
+                </View>
+            ) : ( 
+                setRestaurantInfo(getRestaurantFormats(data))
+            )}
+        </React.Fragment>
+
+
     );
 };
 

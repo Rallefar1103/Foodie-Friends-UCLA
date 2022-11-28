@@ -119,6 +119,7 @@ export const addRestaurantsToDB = async (restaurantData) => {
 
 export const createMatch = async (data) => {
   // create match with users, add match to user document, delete from tempTable
+  data.users.sort();
   matchId = data.restaurantId + '-'  + data.users.join('-');
   users = data.users;
   restaurantId = data.restaurantId;
