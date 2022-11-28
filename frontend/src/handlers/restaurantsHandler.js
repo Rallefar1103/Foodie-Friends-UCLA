@@ -11,7 +11,7 @@ class RestaurantsHandler {
     this._dbHandler = new DBHandler();
   }
 
-  getRestaurants(zipcode) {
+  getRestaurantsForDisplay(zipcode) {
     var result = this._dbHandler.getRestaurants(zipcode);
     var restaurants = [];
 
@@ -24,3 +24,5 @@ class RestaurantsHandler {
     return restaurants;
   }
 }
+
+export default RestaurantsHandler;
