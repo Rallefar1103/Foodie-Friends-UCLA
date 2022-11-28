@@ -46,7 +46,9 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    marginTop: 10,
+  },
+  stack: {
+    marginTop: 40
   },
   card: {
     flex: 1,
@@ -115,6 +117,7 @@ const SwipingScreen = (props, { navigation }) => {
     <React.Fragment>
       {restaurantInfo ? (
         <View style={styles.container}>
+        <View style={styles.stack}>
           <Swiper
             cards={restaurantInfo}
             renderCard={(card) => {
@@ -144,6 +147,7 @@ const SwipingScreen = (props, { navigation }) => {
                     </TouchableOpacity>
                   </ImageBackground>
                 </View>
+                
               );
             }}
             onSwiped={(cardIndex) => {}}
@@ -161,6 +165,7 @@ const SwipingScreen = (props, { navigation }) => {
             backgroundColor={"#fff"}
             stackSize={5}
           ></Swiper>
+        </View>
         </View>
       ) : (
         setRestaurantInfo(getRestaurantFormats(data))
