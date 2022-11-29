@@ -22,7 +22,7 @@ import {
   getRestaurantInformation,
 } from "../../firebase/firestore";
 
-const populateMatch = async (matchIds, arr) => {
+const populateMatch = async (matchIds, arr, userid) => {
   if (matchIds.length == 0) {
     return [];
   }
@@ -33,7 +33,7 @@ const populateMatch = async (matchIds, arr) => {
     for (let j = 0; j < matchData.users.length; j++) {
       const usr = await getUserInformation(matchData.users[j]);
       nameList += usr.userName + ", ";
-      if (usr.hasOwnProperty("userNumber")) {
+      if (usr.hasOwnProperty("userNumber") && userid != usr.id) {
         numbersList.push(usr.userNumber);
       }
     }
@@ -66,7 +66,7 @@ export default function MatchesScreen({ route, navigation }) {
   let matchArr = [];
 
   if (isLoading) {
-    populateMatch(user.matches, matchArr).then((res) => {
+    populateMatch(user.matches, matchArr, user.id).then((res) => {
       const currMatch = { matches: res };
       setMatches(currMatch);
       count = 10;
@@ -86,7 +86,7 @@ export default function MatchesScreen({ route, navigation }) {
     setRefreshing(true);
     getUserInformation(user.id)
     .then((user) => {
-      populateMatch(user.matches, []).then((res) => {
+      populateMatch(user.matches, [], user.id).then((res) => {
         if (res.length > 0) {
           setLoading(false);
           const currMatch = { matches: res };
