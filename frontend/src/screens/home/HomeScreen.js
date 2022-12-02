@@ -43,20 +43,22 @@ export default function HomeScreen({ route, navigation }) {
                 iconName = focused ? "settings" : "settings-outline";
               }
               else if (routeName === swipe) {
-                iconName = focused ? "swipe" : "settings-outline";
+                iconName = focused ? "play" : "play-outline";
               }
               return <Ionicons name={iconName} size={size} color={color} />;
             },
           })}
         >
-          <Tab.Screen name={swipe} component={SwipingScreen} />
-          <Tab.Screen name={matches} component={MatchesScreen} />
-          <Tab.Screen name={settings} component={SettingsScreen} />
+          <Tab.Screen name={swipe}>
+            {() => <SwipingScreen data={restaurantInfo} user={user} />}          
+          </Tab.Screen>
+          <Tab.Screen name={matches} component={MatchesScreen} initialParams={ {user: user} }/>
+          <Tab.Screen name={settings} component={SettingsScreen} initialParams={ {user: user} }/>
         </Tab.Navigator>
       ) : (
         <React.Fragment>
             <LoadingPage />
-            {setRestaurants(getRestaurants())}
+            {setRestaurantInfo(getRestaurants())}
         </React.Fragment>
       )}
     </React.Fragment>

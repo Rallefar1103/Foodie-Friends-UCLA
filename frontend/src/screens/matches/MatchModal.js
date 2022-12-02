@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useState, useEffect} from "react";
+import * as SMS from "expo-sms";
 import { Modal, FlatList, StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Image } from "react-native";
-import * as SMS from 'expo-sms';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -35,11 +35,14 @@ export default function MatchModal(props) {
         <View style={styles.container}>
           <View style={styles.background}>
             <View style={ styles.imageContainer }>
-                <Image source={ restaurantData.image } style={ styles.img } />
+                <Image source={ {uri: restaurantData.restaurantImageUrl} } style={ styles.img } />
             </View>
-            <Text style={styles.name}>{restaurantData.name}</Text>
+            <Text style={styles.name}>{restaurantData.restaurantName}</Text>
             <Text style={styles.info}>with...</Text>
-            <Text style={styles.info}>{restaurantData.people}</Text>
+            <Text style={styles.info}>{restaurantData.nameList}</Text>
+            <View style={styles.locationSeparator}/>
+            <Text style={styles.info}>at...</Text>
+            <Text style={styles.info}>{restaurantData.restaurantLocation}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={ () => { sendSMS(restaurantData.numbers) }} style={styles.chatButton}>
                 <Text style={styles.buttonText}>Start a Chat!</Text>
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
   imageContainer: {
       backgroundColor: '#606060',
       borderRadius: 30,
-      height: "20%",
+      height: "50%",
       width: "90%",
       justifyContent: 'center',
       alignItems: 'center',
@@ -118,5 +121,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     paddingBottom: 20,
+  },
+  locationSeparator: {
+    height: 10,
   }
 });

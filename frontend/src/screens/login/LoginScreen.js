@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
           onChangeText={(password) => setPassword(password)}
         ></TextInput>
 
-        <View flexDirection="row">
+        <View style={styles.formContainer}>
           <TouchableOpacity
             onPress={() => {
               authenticate(email, password).then((user) => {
@@ -54,23 +54,16 @@ export default function LoginScreen({ navigation }) {
             }}
             style={styles.signInButton}
           >
-            <Text style={styles.signInText}> Log In!</Text>
+            <Text style={styles.signInText}>Log In!</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
-              signUp(email, password).then((user) => {
-                if (user) {
-                  setLoginError(null);
-                  navigation.navigate("SignUpScreen", { userId: user.user.uid });
-                } else {
-                  setLoginError("Failed to sign up.");
-                }
-              });
+              navigation.navigate("SignUpScreen");
             }}
             style={styles.signInButton}
           >
-            <Text style={styles.signInText}> Sign Up!</Text>
+            <Text style={styles.signInText}>Sign Up!</Text>
           </TouchableOpacity>
         </View>
         
@@ -92,6 +85,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  formContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    paddingTop: 10,
+  },
+
   logoText: {
     fontSize: 40,
     fontWeight: "500",
@@ -107,18 +108,20 @@ const styles = StyleSheet.create({
   },
 
   signInButton: {
-    width: "30%",
+    width: "20%",
     elevation: 10,
     backgroundColor: "white",
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 10,
+    alignContent: "center",
   },
 
   signInText: {
     fontSize: 13,
     color: "black",
     fontWeight: "bold",
+    textAlign: "center",
   },
 
   errorText: {
@@ -126,6 +129,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontWeight: "bold",
     marginTop: 10,
+    textAlign: "center",
   },
   textInput: {
     borderWidth: 1,
@@ -133,6 +137,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 50,
     width: 200,
-    marginBottom: 5
+    paddingLeft: 10,
   },
 });
