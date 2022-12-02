@@ -4,8 +4,8 @@ import {Tile } from 'react-native-elements'
 import Swiper from 'react-native-deck-swiper'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
-import { useState } from "react";
-import { recordUserSwipe } from "../../firebase/firestore";
+import { useState , useEffect} from "react";
+import { recordUserSwipe } from "../../../../backend/firebase/firestore";
 
 const styles = StyleSheet.create({
     CardContainer : {
@@ -63,9 +63,15 @@ const Restaurants = [
 
 const SwipingScreen = (props, {navigation}) => {
     const [restaurantInfo, setRestaurantInfo] = useState(null);
-    const input_data = props.data;
     const user = props.user;
-    const data = input_data["_z"]["_z"]
+
+    console.log("testing")
+
+    useEffect( () => {
+        console.log('new restaurants added');
+        setRestaurantInfo(props.data["_z"]);
+        console.log(props.data["_z"]);
+    }, [props.data])
 
     const getRestaurantFormats = (json_data) =>{
         var temp_arr = []
@@ -112,7 +118,7 @@ const SwipingScreen = (props, {navigation}) => {
                     </Swiper>
                 </View>
             ) : ( 
-                setRestaurantInfo(getRestaurantFormats(data))
+                setRestaurantInfo(getRestaurantFormats(props.data))
             )}
         </React.Fragment>
 

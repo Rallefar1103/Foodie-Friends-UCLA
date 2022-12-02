@@ -20,7 +20,7 @@ import {
   getUserInformation,
   getMatchInformation,
   getRestaurantInformation,
-} from "../../firebase/firestore";
+} from "../../../../backend/firebase/firestore";
 
 const populateMatch = async (matchIds, arr) => {
   for (let i = 0; i < matchIds.length; i++) {
