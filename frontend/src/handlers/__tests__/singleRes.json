@@ -1,0 +1,10 @@
+{
+    "id": 123,
+    "categories": ["asian", "american", "chinese"],
+    "distance": 23,
+    "location": "Westwood",
+    "name": "chick-fil-a",
+    "price": "expensive",
+    "rating": 4,
+    "image_url": "http://here.com"
+}

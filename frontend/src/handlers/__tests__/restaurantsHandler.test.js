@@ -1,48 +1,26 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
-import { getRestaurantsForDisplay } from "../restaurantsHandler";
+import RestaurantsHandler from "../restaurantsHandler";
+import * as fs from "fs";
+import * as mockFirestore from "../../firebase/firestore";
 
-var list = [
-  {
-    id: 123,
-    categories: ["asian", "american", "chinese"],
-    distance: 23,
-    location: "Westwood",
-    name: "chick-fil-a",
-    price: "expensive",
-    rating: 4,
-    image_url: "http://here.com",
-  },
-  {
-    id: 124,
-    categories: ["asian", "american", "chinese"],
-    distance: 21,
-    location: "Westwood",
-    name: "chick-fil-a",
-    price: "expensive",
-    rating: 4,
-    image_url: "http://here.com",
-  },
-  {
-    id: 125,
-    categories: ["asian", "american", "chinese"],
-    distance: 26,
-    location: "Westwood",
-    name: "chick-fil-a",
-    price: "expensive",
-    rating: 4,
-    image_url: "http://here.com",
-  },
-];
-
-jest.mock("../restaurantsHandler", () => ({
-  __esModule: true,
-  getRestaurantsForDisplay: () => list,
-}));
+mockFirestore.getRestaurantsByZipFromDB.mockImplementation(() =>
+  Promise.resolve({ data: "mock_result" })
+);
 
 describe("restaurantsHandler module", () => {
   test("should return a list of restaurants from DB", async () => {
-    var result = getRestaurantsForDisplay();
+    var resHandler = new RestaurantsHandler();
+    var result = await resHandler.getRestaurantsForDisplay("93065");
 
-    expect(result).toBe(list);
+    var expected = JSON.parse(
+      fs
+        .readFileSync(
+          "/Users/rasmushenriksen/Desktop/CS130-Fall-2022-Project/frontend/src/handlers/__tests__/listOfRes.json"
+        )
+        .toString()
+    );
+
+    // expect(result).toBe(expected);
+    expect(mockFirestore.getRestaurantsByZipFromDB).toHaveBeenCalled(1);
   });
 });

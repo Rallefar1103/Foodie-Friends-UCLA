@@ -1,18 +1,10 @@
-import HTTPHandler from "./httpHandler";
+import * as fireStore from "../firebase/firestore";
 import Restaurant from "../models/restaurant";
-import DBHandler from "./dbHandler";
 
 class RestaurantsHandler {
-  _httpHandler;
-  _dbHandler;
-
-  constructor() {
-    this._httpHandler = new HTTPHandler();
-    this._dbHandler = new DBHandler();
-  }
-
   async getRestaurantsForDisplay(zipcode) {
-    var result = await this._dbHandler.getRestaurants(zipcode);
+    console.log("Helo from res handler");
+    var result = await fireStore.getRestaurantsByZipFromDB(zipcode);
     var restaurants = [];
 
     if (result != null) {
@@ -22,6 +14,15 @@ class RestaurantsHandler {
     }
 
     return restaurants;
+  }
+
+  async getRestaurantInformation(resId) {
+    var result = await fireStore.getRestaurantInformation(resId);
+
+    if (result != null) {
+      return Restaurant.from(result);
+    }
+    return null;
   }
 }
 
