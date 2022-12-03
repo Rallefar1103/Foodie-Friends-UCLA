@@ -13,6 +13,19 @@ const addUser = async (userId, data) => {
     });
 };
 
+const deleteUser = async (userId) => {
+  console.log(userId);
+  const docRef = db.collection('users').doc(userId); 
+  return docRef.delete()
+    .then((res) => {
+      return true
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+};
+
 const getUserInformation = async (userId) => {
   const docRef = db.collection('users').doc(userId); 
   const docSnap = await docRef.get();
@@ -77,6 +90,18 @@ const addLocation = async (zipcode) => {
     });
 };
 
+const deleteLocation = async (zipcode) => {
+  const docRef = db.collection('locations').doc(zipcode)
+  return docRef.delete()
+    .then((res) => {
+      return true;
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+}
+
 const getRestaurantsByZipFromDB = async (zipcode) => {
   const restaurants = [];
   const restaurantCollection = db.collection('restaurants');
@@ -98,6 +123,18 @@ const addRestaurantsToDB = async (restaurantData) => {
   });
   await batch.commit();
   console.log("restaurants added!");
+};
+
+const addMatch = async (matchId, data) => {
+  const docRef = db.collection('matches').doc(matchId)
+  return docRef.set(data)
+    .then((res) => {
+      return true;
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
 };
 
 const createMatch = async (data) => {
@@ -160,12 +197,15 @@ const recordUserSwipe = async (restaurantId, userId) => {
 
 module.exports = {
   addUser,
+  deleteUser,
   getUserInformation,
   getMatchInformation,
   getRestaurantInformation,
   checkLocation,
   addLocation,
+  deleteLocation,
   getRestaurantsByZipFromDB,
   addRestaurantsToDB,
-  recordUserSwipe
+  recordUserSwipe,
+  addMatch
 }
