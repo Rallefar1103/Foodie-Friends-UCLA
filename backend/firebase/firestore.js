@@ -1,23 +1,9 @@
-import {
-  doc,
-  setDoc,
-  getDoc,
-  getFirestore,
-  writeBatch,
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  arrayUnion,
-  deleteDoc
-} from "firebase/firestore";
-
-const db = getFirestore();
-
-export const addUser = async (userId, data) => {
+const { db } = require('./firebaseProvider');
+ 
+const addUser = async (userId, data) => {
   console.log(userId);
-  return setDoc(doc(db, "users", userId), data)
+  const docRef = db.collection('users').doc(userId); 
+  return docRef.set(data)
     .then((res) => {
       return getUserInformation(userId);
     })
@@ -27,11 +13,11 @@ export const addUser = async (userId, data) => {
     });
 };
 
-export const getUserInformation = async (userId) => {
-  const docRef = doc(db, "users", userId);
-  const docSnap = await getDoc(docRef);
+const getUserInformation = async (userId) => {
+  const docRef = db.collection('users').doc(userId); 
+  const docSnap = await docRef.get();
 
-  if (docSnap.exists()) {
+  if (docSnap.exists) {
     console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
@@ -40,11 +26,11 @@ export const getUserInformation = async (userId) => {
   }
 };
 
-export const getMatchInformation = async (matchId) => {
-  const docRef = doc(db, "matches", matchId);
-  const docSnap = await getDoc(docRef);
+const getMatchInformation = async (matchId) => {
+  const docRef = db.collection('matches').doc(matchId);
+  const docSnap = await docRef.get();
 
-  if (docSnap.exists()) {
+  if (docSnap.exists) {
     console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
@@ -53,11 +39,11 @@ export const getMatchInformation = async (matchId) => {
   }
 };
 
-export const getRestaurantInformation = async (resId) => {
-  const docRef = doc(db, "restaurants", resId);
-  const docSnap = await getDoc(docRef);
+const getRestaurantInformation = async (resId) => {
+  const docRef = db.collection('restaurants').doc(resId);
+  const docSnap = await docRef.get();
 
-  if (docSnap.exists()) {
+  if (docSnap.exists) {
     console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
@@ -66,12 +52,12 @@ export const getRestaurantInformation = async (resId) => {
   }
 };
 
-export const checkLocation = async (zipcode) => {
+const checkLocation = async (zipcode) => {
   console.log(zipcode);
-  const docRef = doc(db, "locations", zipcode);
-  const docSnap = await getDoc(docRef);
+  const docRef = db.collection('locations').doc(zipcode)
+  const docSnap = await docRef.get();
 
-  if (docSnap.exists()) {
+  if (docSnap.exists) {
     return true;
   } else {
     console.log("No zipcode!");
@@ -79,8 +65,9 @@ export const checkLocation = async (zipcode) => {
   }
 };
 
-export const addLocation = async (zipcode) => {
-  return setDoc(doc(db, "locations", zipcode), {})
+const addLocation = async (zipcode) => {
+  const docRef = db.collection('locations').doc(zipcode)
+  return docRef.set({})
     .then((res) => {
       return true;
     })
@@ -90,14 +77,10 @@ export const addLocation = async (zipcode) => {
     });
 };
 
-export const getRestaurantsByZipFromDB = async (zipcode) => {
+const getRestaurantsByZipFromDB = async (zipcode) => {
   const restaurants = [];
-  const restaurantCollection = collection(db, "restaurants");
-  const q = query(
-    restaurantCollection,
-    where("location.zip_code", "==", zipcode)
-  );
-  const querySnapshot = await getDocs(q);
+  const restaurantCollection = db.collection('restaurants');
+  const querySnapshot = await restaurantCollection.where("location.zip_code", "==", zipcode).get();
   querySnapshot.forEach((doc) => {
     restaurants.push(doc.data());
   });
@@ -105,19 +88,19 @@ export const getRestaurantsByZipFromDB = async (zipcode) => {
   return restaurants;
 };
 
-export const addRestaurantsToDB = async (restaurantData) => {
+const addRestaurantsToDB = async (restaurantData) => {
   console.log("adding restaurants", restaurantData);
-  const batch = writeBatch(db);
+  const batch = db.batch()
   restaurantData.forEach((restaurant) => {
     console.log(restaurant.id);
-    var docRef = doc(db, "restaurants", restaurant.id);
+    var docRef = db.collection('restaurants').doc(restaurant.id)
     batch.set(docRef, restaurant);
   });
   await batch.commit();
   console.log("restaurants added!");
 };
 
-export const createMatch = async (data) => {
+const createMatch = async (data) => {
   // create match with users, add match to user document, delete from tempTable
   data.users.sort();
   matchId = data.restaurantId + '-'  + data.users.join('-');
@@ -128,7 +111,7 @@ export const createMatch = async (data) => {
   restaurantImageUrl = restaurantInfo.imageUrl;
   restaurantLocation = restaurantInfo.location.display_address.join(", ");
 
-  await setDoc(doc(db, "matches", matchId), {
+  await db.collection("matches").doc(matchId).set({
     id: matchId,
     users,
     restaurantId,
@@ -138,39 +121,51 @@ export const createMatch = async (data) => {
   });
 
   users.forEach(async (userId) => {
-    await updateDoc(doc(db, "users", userId), {
+    await db.collection('users').doc(userId).update({
       matches: arrayUnion(matchId)
-    });
+    })
   });
 }
 
-export const recordUserSwipe = async (restaurantId, userId) => {
+const recordUserSwipe = async (restaurantId, userId) => {
   // check if restaurant id exists, create if doesn't
   // check user count if >= 4, create match and assign users to it 
   // update user documents with match id
 
   console.log("RECORD USER SWIPE: ", userId, restaurantId); 
-  const docRef = doc(db, "tempMatches", restaurantId);
-  const docSnap = await getDoc(docRef);
+  const docRef = db.collection("tempMatches").doc(restaurantId);
+  const docSnap = await docRef.get()
 
-  if (docSnap.exists()) {
+  if (docSnap.exists) {
     const data = docSnap.data();
     data.users.indexOf(userId) === -1 ? data.users.push(userId) : console.log("user in temp match");
     //update document
     if (data.users.length >= 2) {
       console.log("CREATING MATCH!")
       await createMatch(data);
-      await deleteDoc(docRef);
+      await docRef.delete();
     } 
     else {
-      await updateDoc(docRef, data);
+      await docRef.update(data);
       console.log("User added to temp match")
     }
 
   } else {
-    await setDoc(doc(db, "tempMatches", restaurantId), {
+    await db.collection('tempMatches').doc(restaurantId).set({
       restaurantId: restaurantId,
       users: [userId]
     })
   }
+}
+
+module.exports = {
+  addUser,
+  getUserInformation,
+  getMatchInformation,
+  getRestaurantInformation,
+  checkLocation,
+  addLocation,
+  getRestaurantsByZipFromDB,
+  addRestaurantsToDB,
+  recordUserSwipe
 }

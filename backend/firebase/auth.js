@@ -1,16 +1,4 @@
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
-import provideFirebaseApp from "./firebase";
-import { getUserInformation } from "./firestore";
-
-provideFirebaseApp();
-const auth = getAuth();
-
-export const authenticate = (email, password) => {
+const authenticate = (auth, email, password) => {
   console.log("auth request");
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -28,7 +16,7 @@ export const authenticate = (email, password) => {
   I;
 };
 
-export const signUp = (email, password) => {
+const signUp = (email, password) => {
   console.log("signup request");
   return createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
@@ -41,7 +29,7 @@ export const signUp = (email, password) => {
     });
 };
 
-export const signOut = () => {
+const signOut = () => {
     console.log("signout request");
     return auth.signOut()
     .then(() => {
@@ -54,3 +42,5 @@ export const signOut = () => {
       return null;
     });
 };
+
+module.exports = {authenticate, signUp, signOut}
