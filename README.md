@@ -22,3 +22,12 @@ The directory structure is as follows:
     </ul>
   </ul>
 </ul>
+
+
+<h1>How to Build<h2>
+
+1. Install React-Native
+2. Clone repository and navigate inside the 'frontend' directory
+3. run the following command
+`npx expo start`
+4. Use a local iOS simulator or the Expo Go app on a device to run the app.
