@@ -6,7 +6,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import Preference from "./preference";
 import PreferenceItem from "../../components/settings/preferenceItem";
-import { signOut } from "../../firebase/auth";
+import { signOut } from "../../../../backend/firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 
 export default function SettingsScreen({ route, navigation }){

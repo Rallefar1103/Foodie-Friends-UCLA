@@ -1,4 +1,4 @@
-import { checkLocation, addLocation, getRestaurantsByZipFromDB, addRestaurantsToDB } from "../firebase/firestore";
+import { checkLocation, addLocation, getRestaurantsByZipFromDB, addRestaurantsToDB } from "../../../backend/firebase/firestore";
 
 export const getRestaurantsByZip = async (zipcode) => {
     const findLocation = await checkLocation(zipcode);
