@@ -137,3 +137,7 @@ test("getRestaurantsByZipFromDB success", async () => {
 test("getRestaurantsByZipFromDB failure", async () => {
     await expect(getRestaurantsByZipFromDB("location doesn't exist")).resolves.toStrictEqual([]);
 });
+
+test("getRestaurantByZip Yelp", async () => {
+    await expect(getRestaurantsByZip(mockedUser.location)).resolves.not.toBeNull();
+});
