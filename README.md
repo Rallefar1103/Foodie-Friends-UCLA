@@ -24,7 +24,7 @@ The directory structure is as follows:
 </ul>
 
 
-<h1>How to Build<h2>
+<h1>How to Build<h1>
 
 1. Install React-Native
 2. Clone repository and navigate inside the 'frontend' directory
