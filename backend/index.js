@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { authenticate } = require("./firebase/auth");
 const {
   addUser,
   getMatchInformation,
@@ -12,6 +11,10 @@ const {
   addRestaurantsToDB,
   recordUserSwipe,
 } = require("./firebase/firestore");
+
+const {
+  getRestaurantsByZip
+} = require("./yelp/yelp");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -77,6 +80,12 @@ app.post("/swipe/right", async (req, res) => {
   const body = req.body;
   const { userId, restaurantId } = body;
   const ret = recordUserSwipe(restaurantId, userId);
+  return res.send(ret);
+});
+
+app.get("/yelp/get-restaurants/:zipcode", async (req, res) => {
+  const zipcode = req.params.zipcode;
+  const ret = await getRestaurantsByZip(zipcode);
   return res.send(ret);
 });
 
